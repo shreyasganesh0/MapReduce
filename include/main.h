@@ -9,11 +9,4 @@ typedef enum __attribute__((packed)) {
     P = 50,
 } action_t;
 
-typedef struct {
-    char userID[5];
-    char action;
-    char topic[16];
-} input_t;
-
-
 #endif
