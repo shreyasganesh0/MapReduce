@@ -2,11 +2,13 @@
 #include <strings.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "reducer.h"
-#include "hashmap.h"
+#include "hashmap.c"
 
-int reducer(){
+int main(int argc, char *argv[]){
+
 
     printf("Enter Input for Reducer\n");
 

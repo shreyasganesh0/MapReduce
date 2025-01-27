@@ -4,13 +4,12 @@
 #define BUCKET_COUNT 6
 #define LOAD_FACTOR 0.75
 #define INITIAL_CAPACITY 16
-#include <stdbool.h>
 #include <stdint.h>
 
 typedef struct {
     char *key;
     int8_t *value;
-    bool is_occupied;
+    int is_occupied;
 } hash_node_t;
 
 typedef struct {

@@ -1,24 +1,29 @@
-# Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -Iinclude
-DEBUG_FLAGS = -g -DDEBUG              # Flags for debug mode
+DEBUG_FLAGS = -g -DDEBUG
 SRC_DIR = src
-BUILD_DIR = build
-SRC = $(wildcard $(SRC_DIR)/*.c)
-OBJ = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
-TARGET = map_reduce 
+BUILD_DIR = bin
+TARGET_MAP = $(BUILD_DIR)/mapper
+TARGET_RED = $(BUILD_DIR)/reducer
+TARGET_COMBINE = $(BUILD_DIR)/combiner
 
 # Default target
-all: $(TARGET)
+all: $(TARGET_MAP) $(TARGET_RED) $(TARGET_COMBINE)
 
-# Rule for building the target
-$(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $(TARGET)
-
-# Rule to compile .c files into .o files
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+# Rule for building mapper binary directly
+$(TARGET_MAP): $(SRC_DIR)/mapper.c
 	@mkdir -p $(BUILD_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $< -o $@
+
+# Rule for building reducer binary directly
+$(TARGET_RED): $(SRC_DIR)/reducer.c
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) $< -o $@
+
+# Rule for building combiner binary directly
+$(TARGET_COMBINE): $(SRC_DIR)/combiner.c
+	@mkdir -p $(BUILD_DIR)
+	$(CC) $(CFLAGS) $< -o $@
 
 # Debug mode target
 debug: CFLAGS += $(DEBUG_FLAGS)
@@ -26,7 +31,7 @@ debug: clean all
 
 # Clean up build files
 clean:
-	rm -rf $(BUILD_DIR) $(TARGET)
+	rm -rf $(BUILD_DIR)
 
 # Phony targets
 .PHONY: all clean debug

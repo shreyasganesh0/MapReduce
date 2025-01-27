@@ -4,9 +4,8 @@
 #include <stdbool.h>
 
 #include "mapper.h"
-int mapper(){
-    printf("Enter input for Mapper\n");
-
+int main(int argc, char *argv[]){
+    
     while(true){
         
         mapper_t mapper_inp; 
@@ -78,5 +77,5 @@ int mapper(){
             break;
         }
     }
-        return 0;
+    return 0;
 }
