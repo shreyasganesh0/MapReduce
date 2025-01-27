@@ -23,6 +23,7 @@ int main(int argc, char *argv[]){
             }
 
             if(!strcmp(buf, "exit")){
+                printf("exit\n");
                 return 0;
             }
             if(sscanf(buf, "(%[^,],%[^,],%[^)])", mapper_inp.userID, &mapper_inp.action, mapper_inp.topic) == 0){
