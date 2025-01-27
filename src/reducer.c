@@ -9,9 +9,6 @@
 
 int main(int argc, char *argv[]){
 
-
-    printf("Enter Input for Reducer\n");
-
     hash_map_t *topic_score_map = create_hashmap(INITIAL_CAPACITY);        
     bool flag = true;
     do{
@@ -57,8 +54,7 @@ int main(int argc, char *argv[]){
         }
         else{
             if (feof(stdin)) {
-                printf("End of file reached.\n");
-                break;
+                hashmap_iterate(topic_score_map, curr_userID);
             } else if (ferror(stdin)) {
                 perror("Error reading input");
             } else {

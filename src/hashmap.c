@@ -28,7 +28,6 @@ void hashmap_iterate(hash_map_t *map, char *userID){
         return;
     }
 
-    printf("--------  Previous reduction --------\n\n");
     for (int i = 0; i < map->capacity; i++){
         hash_node_t node = map->nodes[i];
         if (node.is_occupied == 1){

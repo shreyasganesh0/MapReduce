@@ -17,7 +17,7 @@ int main(int argc, char *argv[]){
             if (buf_len > 0 && buf[buf_len - 1] == '\n'){
                 buf[buf_len - 1] = '\0';
             }
-            if (strlen(buf) > 4+1+15){
+            if (strlen(buf) > 4+1+15+5){
                 printf("Input too strong\n");
                 continue;
             }
@@ -67,9 +67,10 @@ int main(int argc, char *argv[]){
             printf("(%s,%s,%s)\n", mapper_inp.userID, mapper_inp.topic, score);
         }
         else{
-            if (feof(stdin)) {
-                printf("End of file reached.\n");
-            } else if (ferror(stdin)) {
+            if (feof(stdin)){
+
+            }
+            else if (ferror(stdin)) {
                 perror("Error reading input");
             } else {
                 printf("Unknown error occurred.\n");

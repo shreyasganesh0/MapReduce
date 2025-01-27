@@ -41,6 +41,7 @@ int main(int argc, char *argv[]){
                     case 0:
                     {
                         // create reducer path
+                        close(filedes[1]);
                         int dup_err = dup2(filedes[0], 0);
                         if (dup_err == -1){
                             int errsv = errno;
@@ -59,6 +60,7 @@ int main(int argc, char *argv[]){
                     default:
                     {
                          // mapper execution part
+                        close(filedes[0]);
                         int dup_err = dup2(filedes[1], 1);
                         if (dup_err == -1){
                             int errsv = errno;
@@ -79,6 +81,8 @@ int main(int argc, char *argv[]){
         default:
             {
                 // main
+                close(filedes[0]);
+                close(filedes[1]);
                 int *stat_loc;
                 waitpid(pid_map, stat_loc, WUNTRACED);
                 printf("Program exited\n");
