@@ -28,12 +28,13 @@ void hashmap_iterate(hash_map_t *map, char *userID){
         return;
     }
 
+    hash_node_t *node = map->nodes;
     for (int i = 0; i < map->capacity; i++){
-        hash_node_t node = map->nodes[i];
-        if (node.is_occupied == 1){
-            printf("(%s,%s,%d)\n", userID, node.key, *node.value);
-            *node.value = 0;
-            node.is_occupied = 0;
+        if (node[i].is_occupied == 1){
+            printf("(%s,%s,%d)\n", userID, node[i].key, *node[i].value);
+            node[i].value = NULL;
+            node[i].is_occupied = 0;
+            map->size -= 1;
         }
     }
     return;
@@ -53,6 +54,7 @@ void hashmap_insert(hash_map_t *map, const char *key, int8_t *value) {
             *value += *map->nodes[index].value; // adds the value to existing value
             map->nodes[index].value = value;
             map->nodes[index].is_occupied = 1;
+            map->size++;
             return;
         }
         index = (index + 1) % map->capacity;  // Linear probing
