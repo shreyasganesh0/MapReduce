@@ -55,6 +55,7 @@ int main(int argc, char *argv[]){
                             printf("Exec failed Mapper Child.: %d", errsv);
                             return 1;
                         }
+			break;
                     }
                     
                     default:
@@ -76,6 +77,7 @@ int main(int argc, char *argv[]){
                         }
                     }
                 }
+		break;
 
             }
         default:
