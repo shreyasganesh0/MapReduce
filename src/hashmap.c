@@ -40,7 +40,7 @@ void hashmap_iterate(hash_map_t *map, char *userID){
     return;
 }
 
-void hashmap_insert(hash_map_t *map, const char *key, int8_t *value) {
+void hashmap_insert(hash_map_t *map, const char *key, int *value) {
     if ((float)map->size / map->capacity > LOAD_FACTOR) {
         // TODO: resize hashmap 
     }
@@ -66,7 +66,7 @@ void hashmap_insert(hash_map_t *map, const char *key, int8_t *value) {
     map->size++;
 }
 
-int8_t *hashmap_get(hash_map_t *map, const char *key) {
+int *hashmap_get(hash_map_t *map, const char *key) {
     unsigned long hash = hash_function(key);
     int index = hash % map->capacity;
 

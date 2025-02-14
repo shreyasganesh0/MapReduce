@@ -17,7 +17,8 @@ int main(int argc, char *argv[]){
     }
 
 
-    pid_t pid_map = fork();
+    pid_t pid_map  = fork();
+    pid_t pid_red;
 
     switch(pid_map){
         case -1:
@@ -28,7 +29,7 @@ int main(int argc, char *argv[]){
             }
         case 0:
             { // this is the child
-                pid_t pid_red = fork();
+                pid_red = fork();
 
                 switch (pid_red){
                     case -1:
@@ -55,7 +56,7 @@ int main(int argc, char *argv[]){
                             printf("Exec failed Mapper Child.: %d", errsv);
                             return 1;
                         }
-			break;
+                        break;
                     }
                     
                     default:
@@ -86,7 +87,7 @@ int main(int argc, char *argv[]){
                 close(filedes[0]);
                 close(filedes[1]);
                 int *stat_loc;
-                waitpid(pid_map, stat_loc, WUNTRACED);
+                waitpid(pid_map, stat_loc, 0);
                 printf("Program exited\n");
 
             }

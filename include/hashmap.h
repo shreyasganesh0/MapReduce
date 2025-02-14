@@ -3,12 +3,12 @@
 
 #define BUCKET_COUNT 6
 #define LOAD_FACTOR 0.75
-#define INITIAL_CAPACITY 16
+#define INITIAL_CAPACITY 2000
 #include <stdint.h>
 
 typedef struct {
     char *key;
-    int8_t *value;
+    int *value;
     int is_occupied;
 } hash_node_t;
 
@@ -24,9 +24,9 @@ hash_map_t *create_hashmap(int capacity);
 
 void hashmap_iterate(hash_map_t *map, char *userID);
 
-void hashmap_insert(hash_map_t *map, const char *key, int8_t *value);
+void hashmap_insert(hash_map_t *map, const char *key, int *value);
 
-int8_t *hashmap_get(hash_map_t *map, const char *key);
+int *hashmap_get(hash_map_t *map, const char *key);
 
 void hashmap_delete(hash_map_t *map, const char *key);
 

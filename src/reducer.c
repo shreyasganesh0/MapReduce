@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
     bool flag = true;
     do{
         
-        int8_t *score = malloc(sizeof(int8_t)); 
+        int *score = malloc(sizeof(int)); 
         reducer_t *reducer_inp = malloc(sizeof(reducer_t));
         static char *curr_userID; // doesnt change with each iteration
         if(reducer_inp == NULL){
@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
             return 0;
         }
 
-        char buf[25];
+        char buf[30];
 
         if (fgets(buf, sizeof(buf), stdin) != NULL){
             size_t buf_len = strlen(buf);
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]){
                 printf("Input Invalid\n");
                 continue;
             }
-            *score = (int8_t)atoi(reducer_inp->score); 
+            *score = (int)atoi(reducer_inp->score); 
 
 
             if (curr_userID == NULL){

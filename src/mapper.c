@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
         
         mapper_t mapper_inp; 
 
-        char buf[25];
+        char buf[30];
 
         if (fgets(buf, sizeof(buf), stdin) != NULL){
             size_t buf_len = strlen(buf);
