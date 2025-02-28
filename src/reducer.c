@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
             if (buf_len > 0 && buf[buf_len - 1] == '\n'){
                 buf[buf_len - 1] = '\0';
             }
-            if(!strcmp(buf, "exit")){
+            if(!strcmp(buf, "exit\n")){
                 hashmap_iterate(topic_score_map, curr_userID);
                 break;
             }

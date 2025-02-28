@@ -10,7 +10,7 @@ int main(int argc, char *argv[]){
 
     int filedes[2];
     int pipe_err = pipe(filedes);
-    if (pipe_err == -1){
+    if (pipe_err == -1) {
         int errsv = errno;
         printf("Pipe error: %d\n", errsv);
         return 1;
@@ -18,83 +18,47 @@ int main(int argc, char *argv[]){
 
 
     pid_t pid_map  = fork();
-    pid_t pid_red;
 
-    switch(pid_map){
-        case -1:
-            { // fork failed
-                int errsv = errno;
-                printf("Fork failed: %d", errsv);
-                return 1;
-            }
-        case 0:
-            { // this is the child
-                pid_red = fork();
+    if (pid_map < 0) {
 
-                switch (pid_red){
-                    case -1:
-                    { // fork failed
-                        int errsv = errno;
-                        printf("Fork failed: %d", errsv);
-                        return 1;
-                    }
-                    
-                    case 0:
-                    {
-                        // create reducer path
-                        close(filedes[1]);
-                        int dup_err = dup2(filedes[0], 0);
-                        if (dup_err == -1){
-                            int errsv = errno;
-                            printf("dup failed: %d\n", errsv);
-                            return 1;
-                        }
-                        
-                        int err = execv(reducer_path, argv);
-                        if (err){
-                            int errsv = errno;
-                            printf("Exec failed Mapper Child.: %d", errsv);
-                            return 1;
-                        }
-                        break;
-                    }
-                    
-                    default:
-                    {
-                         // mapper execution part
-                        close(filedes[0]);
-                        int dup_err = dup2(filedes[1], 1);
-                        if (dup_err == -1){
-                            int errsv = errno;
-                            printf("dup failed: %d\n", errsv);
-                            return 1;
-                        }
+        printf("Failed forking mapper\n");
 
-                        int err = execv(mapper_path, argv);
-                        if (err){
-                            int errsv = errno;
-                            printf("Exec failed Mapper Child.: %d", errsv);
-                            return 1;
-                        }
-                    }
-                }
-		break;
+    } else if (pid_map == 0) {
 
-            }
-        default:
-            {
-                // main
-                close(filedes[0]);
-                close(filedes[1]);
-                int *stat_loc;
-                waitpid(pid_map, stat_loc, 0);
-                printf("Program exited\n");
+        close(filedes[0]); // close read end of the pipe
+        if (dup2(filedes[1], 1) == -1) { // make stdout the writeend of the pipe
 
-            }
-    }
-    return 0;
+            printf("dup failed \n");
+            return -1;
+
+        }
+
+        execv(mapper_path, NULL); 
+
+    } 
+
+    pid_t pid_red = fork();
+
+    if (pid_red < 0) {
+
+        printf("Failed forking mapper\n");
+
+    } else if (pid_red == 0) { 
+
+        close(filedes[1]); // close write end of the pipe
+        if (dup2(filedes[0], 0) == -1) { //make stdin the read end of the pipe
+
+            printf("dup failed \n");
+            return -1;
+
+        }
+
+        execv(reducer_path, NULL); 
+
+    } 
+    close(filedes[0]);
+    close(filedes[1]);
+    wait(NULL);//wait on one child to terminate
+    wait(NULL);//wait on the other child to terminate
 }
-
-
-
-
+        
